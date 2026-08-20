@@ -1,0 +1,35 @@
+import streamlit as st
+import time
+
+st.set_page_config(page_title="Smart Study Planner", page_icon="📚")
+st.title("📚 Smart Study Planner")
+st.caption("จัดตารางอ่านหนังสืออัตโนมัติ & นาฬิกาโฟกัส Pomodoro")
+
+# 1. จัดตารางอ่านหนังสือ
+st.header("1. วางแผนตารางสอบ")
+col1, col2 = st.columns(2)
+with col1:
+    subject = st.text_input("ชื่อวิชาที่ต้องสอบ", value="เคมีเพิ่มเติม")
+    difficulty = st.slider("ระดับความยาก/ความยาวเนื้อหา", 1, 5, 4)
+with col2:
+    days_left = st.number_input("จำนวนวันที่เหลือถึงวันสอบ (วัน)", min_value=1, value=5)
+    daily_free_time = st.number_input("เวลาว่างที่มีให้อ่านต่อวัน (นาที)", min_value=15, value=120)
+
+# อัลกอริทึมคำนวณเวลาอ่านที่แนะนำ
+study_time_needed = (difficulty * 30) / days_left
+
+st.info(f"💡 คำแนะนำ: คุณควรอ่านวิชา **{subject}** อย่างน้อยวันละ **{study_time_needed:.0f} นาที**")
+
+st.divider()
+
+# 2. นาฬิกา Pomodoro
+st.header("2. โหมดโฟกัสการอ่าน (Pomodoro)")
+if st.button("▶️ เริ่มจับเวลาอ่านหนังสือ (25 นาที)"):
+    st.write("🧠 กำลังอยู่ในช่วงใช้สมาธิ... สู้ๆ!")
+    progress_bar = st.progress(0)
+    # จำลองเวลา Demo 5 วินาที แทน 25 นาที
+    for i in range(100):
+        time.sleep(0.05) 
+        progress_bar.progress(i + 1)
+    st.balloons()
+    st.success("🎉 ครบเวลา 25 นาทีแล้ว! พักสายตา 5 นาทีได้เลย")
